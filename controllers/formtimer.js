@@ -42,7 +42,7 @@ exports.create = function(req, res) {
   var ft = new FormTimer({
     form: req.headers.referer + "#" + req.query.formId,
     duration: req.query.duration,
-    ip: req.client.remoteAddress
+    ip: req.ip
   });
   ft.save(function(err){
     if (err) {
