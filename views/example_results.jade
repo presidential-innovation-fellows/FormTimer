@@ -1,0 +1,48 @@
+!!!
+html
+  head
+    script(type='text/javascript', src='https://www.google.com/jsapi')
+    script(type='text/javascript')
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(!{JSON.stringify(formtimerdata)});
+
+        var options = {
+          height: 200,
+          width: 400,
+          legend: {position: 'none'},
+          title: 'Form Completion Times',
+          tooltip: {trigger:'none'},
+          hAxis: {title:'Seconds to Complete', showTextEvery: -1},
+          vAxis: {title:'Number of People'},
+          colors: ['#476D7D']
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('avgchart'));
+        chart.draw(data, options);
+      }
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/formtimer.css')
+
+  body
+    .container
+      h2 FormTimer Example Results
+
+    .container#avgchart
+
+    .container
+      table.table.table-striped.table-bordered
+        thead
+          tr
+            th User's IP
+            th Miliseconds to Complete
+            th When
+        tbody
+          each entry in entries
+            tr
+              td= entry.ip
+              td= entry.duration
+              td= entry.created.toString();
+

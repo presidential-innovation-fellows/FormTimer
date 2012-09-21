@@ -1,0 +1,21 @@
+!!!
+html
+  head
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+
+  body
+    .container
+      h2 FormTimer Example
+
+    .container
+      form#myformid(action='/example/results', method='GET')
+        label Example text input
+        input(name='test', type="text", placeholder='Timer starts when you click here...')
+        label Pick one or two
+        select
+          option One
+          option Two
+        div
+          input(type='submit', value="Done")
+
+  script(src='/js/formtimer.js')
