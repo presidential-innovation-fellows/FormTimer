@@ -24,15 +24,9 @@
         formTimes[formId].endTime = new Date();
         formTimes[formId].duration = formTimes[formId].endTime.getTime() - formTimes[formId].startTime.getTime();
 
-        //JSONP cross-domain doesn't trigger an error if there is one. So let's give it 10 seconds
-        var giveUp = setTimeout(function(){
-          $(e.target).submit();
-        }, 10000);
-
         timerSent = true;
         //would ideally use a standard POST and rely on CORS, but trying to place nice with ye olde browsers
-        $.getJSON('/create', formTimes[formId], function(data) {
-          clearTimeout(giveUp);
+        $.getJSON('/create', formTimes[formId]).complete(function(){
           $(e.target).submit();
         });
         return false;
