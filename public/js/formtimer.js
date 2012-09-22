@@ -40,7 +40,10 @@
     });
   };
 
-  if (typeof window.jQuery === 'undefined') {
+
+  if (window.jQuery) {
+    initFormTimer();
+  } else {
 
     window.onload = function() {
       if(window.jQuery) {
@@ -48,12 +51,8 @@
       }
     };
 
-    var jq = document.createElement('script'); jq.type = 'text/javascript'; jq.async = true;
-    jq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(jq, s);
+    document.write('<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"><\/script>');
 
-  } else {
-    initFormTimer();
   }
 
 })();
