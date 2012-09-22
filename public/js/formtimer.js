@@ -9,7 +9,7 @@
 
     $forms.children(':input').on('focus', function(e){
       var formId = $(e.target).closest('form').attr('id');
-      if (typeof formTimes[formId] === 'undefined') {
+      if (typeof formId !== 'undefined' && typeof formTimes[formId] === 'undefined') {
         formTimes[formId] = {formId: formId, startTime: new Date()};
       }
     });
@@ -17,6 +17,8 @@
     $forms.on('submit', function(e){
       if (timerSent) return true;
       var formId = $(e.target).attr('id');
+      if (typeof formId === 'undefined') return true;
+
       if (typeof formTimes[formId] !== 'undefined') {
         e.preventDefault();
         formTimes[formId].endTime = new Date();
