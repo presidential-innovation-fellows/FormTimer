@@ -2,4 +2,3 @@ node_modules
 node-debug.log
 npm-debug.log
 .nodemonignore
-.DS_Store
