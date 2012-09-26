@@ -6,10 +6,6 @@
 
 FormTimer times how long your forms take to fill out. Use it to make decisions based on real, live data, and to help complete burden estimates in compliance with the [Paperwork Reduction Act](http://www.archives.gov/federal-register/laws/paperwork-reduction/).
 
-## Repository Structure
-
-FormTimer has two components: the frontend javascript, and the backend server-side code that receives the results. If you just want to use Google Analytics to track your results, then all you'll need is `formtimer.js`, the frontend code. If you want to run your own server to receive the results, we've included an example of one, built in NodeJS, which you can find in the `formtimer-node/` directory.
-
 ## Use With Google Analytics
 
 FormTimer couldn't be easier to install. Just add this code right above the closing `</body>` tag. This will initialize FormTimer for each form on the page.
@@ -22,7 +18,7 @@ $("form").formTimer({
 
 Be sure to add your Google Analytics Property ID.
 
-By default, we determine the name of a form by either its `id`, `name`, or `action` attribute, in order of preference. 
+By default, we determine the name of a form by either its `id`, `name`, or `action` attribute, in order of preference.
 
 To name your form manually, you can add a `data-formtimer-name` attribute to the `<form>` tag.
 
