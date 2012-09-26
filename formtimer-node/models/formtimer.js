@@ -1,27 +1,31 @@
 var mongoose = require('mongoose');
 
 var formtimerschema = new mongoose.Schema({
-  form: { type: String, index: true },
+  url: String,
+  formId: String,
   duration: Number,
   ip: String,
   created: { type: Date, default: Date.now }
 });
 
+formtimerschema.index({url: 1, formId: 1});
+
 formtimerschema.plugin(require('mongoose-api-query'));
 
-formtimerschema.statics.stats = function(form, cb){
+formtimerschema.statics.stats = function(formId, url, cb){
   this.collection.aggregate(
     { $match : {
-        form : form
+        formId : formId,
+        url  : url
       }
     },
     { $project : {
-        form : 1,
+        formId : 1,
         duration : 1
       }
     },
     { $group : {
-        _id : "$form",
+        _id : "$formId",
         avgDuration : { $avg : "$duration" },
         minDuration : { $min : "$duration" },
         maxDuration : { $max : "$duration" },

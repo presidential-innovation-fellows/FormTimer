@@ -35,7 +35,7 @@ Great news! You're welcome to use our server to track your stats if you don't wa
 ```
 <script>
 $("form").formTimer({
-  url: "http://formtimer.presidentialinnovationfellows.org"
+  url: 'http://formtimer.presidentialinnovationfellows/create'
 })
 </script>
 ```
@@ -51,6 +51,10 @@ You can access the results of your forms by specifying the URL to your webpage a
 Add `.json` for a JSON representation of the results:
 
 `http://formtimer.presidentialinnovationfellows.org/results.json?url=mysite.com/somepage&form=form_name`
+
+And for a JSON representation of the *stats*:
+
+`http://formtimer.presidentialinnovationfellows.org/stats.json?url=mysite.com/somepage&form=form_name`
 
 ## Customizing the Results
 

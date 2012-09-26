@@ -1,21 +1,49 @@
 var FormTimer = require('../models/formtimer');
 
-exports.index = function(req, res) {
-  if (typeof req.query.url === 'undefined' || typeof req.query.form === 'undefined') {
-    res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&form=myformid'});
-  } else if (req.query.stats){
-    FormTimer.stats(req.query.url + "#" + req.query.form, function(err, result){
+exports.results = function(req, res) {
+  if (typeof req.query.url === 'undefined' || typeof req.query.formId === 'undefined') {
+    res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
+  } else {
+    FormTimer.stats("Form #1", "http://localhost:3000/example", function(err, result){
       if (err) {
         res.send(err);
       } else if (result.length === 0) {
-        res.send({"_id": req.query.url + "#" + req.query.form, count:0});
+        res.send({formId: req.query.formId, count:0});
       } else {
-        res.send(result[0]);
+        var stats = result[0];
+
+        FormTimer.find({formId:req.query.formId, url: req.query.url}).sort('duration').exec(function(err, entries){
+
+          var maxDurRounded = Math.round(stats.maxDuration/1000);
+          var formtimerdata = [];
+          var tempHolder = {};
+
+          for (var i=0; i<maxDurRounded + 1; i++) {
+            formtimerdata.push([i.toString(), 0]);
+          }
+
+          entries.forEach(function(ent){
+            formtimerdata[ent.durationRounded.toString()][1]++;
+          });
+
+          formtimerdata.unshift(['', 'Seconds to Complete']);
+          var renderData = {
+            formtimerdata : formtimerdata,
+            stats : stats,
+            entries : entries
+          };
+          res.render('example_results', renderData);
+        });
       }
     });
+
+  }
+};
+
+exports.resultsJson = function(req, res) {
+  if (typeof req.query.url === 'undefined' || typeof req.query.formId === 'undefined') {
+    res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
   } else {
-    req.query.form = req.query.url + "#" + req.query.form;
-    delete req.query.url;
     var query = FormTimer.apiQuery(req.query);
     var response = {};
 
@@ -23,6 +51,10 @@ exports.index = function(req, res) {
       if (err) res.send({err:err});
       else {
         response.results = results;
+        response.searchParams = {
+          url: req.query.url,
+          formId: req.query.formId
+        };
         response.meta = {
           perPage: query.options.limit,
           page: (query.options.skip / query.options.limit) + 1
@@ -38,9 +70,28 @@ exports.index = function(req, res) {
   }
 };
 
+exports.statsJson = function(req, res) {
+  if (typeof req.query.url  === 'undefined' || typeof req.query.formId === 'undefined') {
+    res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
+  }
+
+  FormTimer.stats(req.query.formId, req.query.url, function(err, result){
+    console.log(err)
+    if (err) {
+      res.send(err);
+    } else if (result.length === 0) {
+      res.send({"formId": req.query.formId, "url": req.query.url, count:0});
+    } else {
+      res.send(result[0]);
+    }
+  });
+
+}
+
 exports.create = function(req, res) {
   var ft = new FormTimer({
-    form: req.headers.referer + "#" + req.query.formId,
+    url: req.headers.referer,
+    formId: req.query.formId,
     duration: req.query.duration,
     ip: req.ip
   });
@@ -56,22 +107,17 @@ exports.example = function(req, res) {
   res.render('example');
 };
 
-exports.results = function(req, res) {
-  var formid = "http://" + req.headers.host + "/example#myformid";
-  FormTimer.stats(formid, function(err, result){
+exports.exampleResults = function(req, res) {
+
+  FormTimer.stats("Form #1", "http://localhost:3000/example", function(err, result){
     if (err) {
       res.send(err);
     } else if (result.length === 0) {
-      res.send({"_id": formid, count:0});
+      res.send({formId: "Form #1", count:0});
     } else {
       var stats = result[0];
-      // stats =
-      // { _id: 'http://localhost:3000/example#myformid',
-      // avgDuration: 4611.666666666667,
-      // minDuration: 4365,
-      // maxDuration: 4953,
-      // count: 3 }
-      FormTimer.find({form:formid}).sort('duration').exec(function(err, entries){
+
+      FormTimer.find({formId:"Form #1", url: "http://localhost:3000/example"}).sort('duration').exec(function(err, entries){
 
         var maxDurRounded = Math.round(stats.maxDuration/1000);
         var formtimerdata = [];
