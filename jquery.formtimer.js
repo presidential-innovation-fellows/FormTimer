@@ -3,8 +3,7 @@
   $.fn.formTimer = function(options) {
 
     var settings = $.extend({
-      'url' : false,
-      'ga-id': false
+      'url' : false
     }, options);
 
     this.each(function(){
@@ -36,9 +35,15 @@
 
         var data = {formId: formId, startTime: startTime, endTime: endTime, duration: duration};
 
-        $.getJSON(settings.url, data).complete(function(){
+        if (_gaq) _gaq.push(['_trackEvent', 'FormTimer', 'Form Submitted', formId, duration]);
+
+        if (settings.url) {
+          $.getJSON(settings.url, data).complete(function(){
+            form.submit();
+          });
+        } else {
           form.submit();
-        });
+        }
 
       });
 

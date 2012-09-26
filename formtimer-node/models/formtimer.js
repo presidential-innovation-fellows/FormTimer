@@ -16,7 +16,7 @@ formtimerschema.statics.stats = function(formId, url, cb){
   this.collection.aggregate(
     { $match : {
         formId : formId,
-        url  : url
+        url  : new RegExp(url, 'i')
       }
     },
     { $project : {

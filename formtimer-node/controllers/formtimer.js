@@ -4,7 +4,7 @@ exports.results = function(req, res) {
   if (typeof req.query.url === 'undefined' || typeof req.query.formId === 'undefined') {
     res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
   } else {
-    FormTimer.stats("Form #1", "http://localhost:3000/example", function(err, result){
+    FormTimer.stats(req.query.formId, new RegExp(req.query.url, 'i'), function(err, result){
       if (err) {
         res.send(err);
       } else if (result.length === 0) {
@@ -12,7 +12,7 @@ exports.results = function(req, res) {
       } else {
         var stats = result[0];
 
-        FormTimer.find({formId:req.query.formId, url: req.query.url}).sort('duration').exec(function(err, entries){
+        FormTimer.find({formId:req.query.formId, url: new RegExp(req.query.url, 'i')}).sort('duration').exec(function(err, entries){
 
           var maxDurRounded = Math.round(stats.maxDuration/1000);
           var formtimerdata = [];
@@ -109,7 +109,7 @@ exports.example = function(req, res) {
 
 exports.exampleResults = function(req, res) {
 
-  FormTimer.stats("Form #1", "http://localhost:3000/example", function(err, result){
+  FormTimer.stats("Form #1", "/example", function(err, result){
     if (err) {
       res.send(err);
     } else if (result.length === 0) {
@@ -117,7 +117,7 @@ exports.exampleResults = function(req, res) {
     } else {
       var stats = result[0];
 
-      FormTimer.find({formId:"Form #1", url: "http://localhost:3000/example"}).sort('duration').exec(function(err, entries){
+      FormTimer.find({formId:"Form #1"}).sort('duration').exec(function(err, entries){
 
         var maxDurRounded = Math.round(stats.maxDuration/1000);
         var formtimerdata = [];
@@ -128,7 +128,8 @@ exports.exampleResults = function(req, res) {
         }
 
         entries.forEach(function(ent){
-          formtimerdata[ent.durationRounded.toString()][1]++;
+          if (formtimerdata[ent.durationRounded.toString()])
+            formtimerdata[ent.durationRounded.toString()][1]++;
         });
 
         formtimerdata.unshift(['', 'Seconds to Complete']);

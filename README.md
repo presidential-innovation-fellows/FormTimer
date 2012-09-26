@@ -8,12 +8,23 @@ FormTimer times how long your forms take to fill out. Use it to make decisions b
 
 ## Use With Google Analytics
 
-FormTimer couldn't be easier to install. Just add this code right above the closing `</body>` tag. This will initialize FormTimer for each form on the page.
+FormTimer couldn't be easier to install if you're already using Google Analytics. The following will initialize FormTimer for each form on the page.
 
 ```
 <script>
-$("form").formTimer({
-  ga-id: "UA-XXXXX-X"
+// Google Analytics Snippet
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXX-X']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+$(function(){
+  $("form").formTimer();
 })
 </script>
 ```
@@ -34,8 +45,10 @@ Great news! You're welcome to use our server to track your stats if you don't wa
 
 ```
 <script>
-$("form").formTimer({
-  url: 'http://formtimer.presidentialinnovationfellows/create'
+$(function(){
+  $("form").formTimer({
+    url: 'http://formtimer.presidentialinnovationfellows/create'
+  })
 })
 </script>
 ```
