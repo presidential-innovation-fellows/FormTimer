@@ -8,8 +8,11 @@ html
       h2 FormTimer Example
 
     .container
-      form#myformid(action='/example/results', method='GET')
+      h4 Form #1
+      form#myformid(action='results', data-formtimer-name="Form #1", method='GET')
         label Example text input
+        input(type="hidden", name="url", value="example")
+        input(type="hidden", name="formId", value="Form #1")
         input(name='test', type="text", placeholder='Timer starts when you click here...')
         label Pick one or two
         select
@@ -18,4 +21,6 @@ html
         div
           input(type='submit', value="Done")
 
-  script(src='/js/formtimer.js')
+  script(src='/js/jquery.js')
+  script(src='/js/jquery.formtimer.js')
+  script(src='/js/example.js')
