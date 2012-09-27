@@ -4,3 +4,10 @@ body {
 #avgchart {
   margin-bottom: 40px;
 }
+img.ribbon {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  border: 0;
+}
