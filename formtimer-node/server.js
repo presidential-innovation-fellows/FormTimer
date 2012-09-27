@@ -7,13 +7,24 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , fs = require('fs');
 
 if (process.env.MONGOHQ_URL) {
   global.DB = mongoose.createConnection(process.env.MONGOHQ_URL)
 } else {
   global.DB = mongoose.createConnection('localhost', 'formtimer');
 }
+
+// Configuration
+try {
+    var configJSON = fs.readFileSync(__dirname + "/config.json");
+    var config = JSON.parse(configJSON.toString());
+} catch(e) {
+    console.error("File config.json not found or is invalid.  Try: `cp config.json.sample config.json`");
+    process.exit(1);
+}
+
 
 var app = express();
 app.set("trust proxy", true);
@@ -25,7 +36,7 @@ app.use(function(req,res,next){
 });
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || config.port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
