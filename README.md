@@ -10,19 +10,20 @@ FormTimer times how long your forms take to fill out. Use it to make decisions b
 
 FormTimer couldn't be easier to install if you're already using Google Analytics. The following will initialize FormTimer for each form on the page.
 
-```
+```javascript
 <script>
-// Google Analytics Snippet
+//// Google Analytics Snippet ////
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-XXXXXXX-X']);
 _gaq.push(['_trackPageview']);
 
 (function() {
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
+//// Initialize FormTimer ////
 $(function(){
   $("form").formTimer();
 })
@@ -31,19 +32,19 @@ $(function(){
 
 FormTimer relies on jQuery, so if you don't already have it installed, add the following *before* FormTimer:
 
-```
+```javascript
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 ```
 
 #### Viewing Results
 
-Just login to your [Google Analytics]() account and go to the `Custom Variables` section.
+Just login to your [Google Analytics]() account and go to the `Content => Events` section.
 
 ## Use With Our Hosted Server
 
 Great news! You're welcome to use our server to track your stats if you don't want to use Google Analytics or setup your own. Just change the initial FormTimer call to
 
-```
+```javascript
 <script>
 $(function(){
   $("form").formTimer({
