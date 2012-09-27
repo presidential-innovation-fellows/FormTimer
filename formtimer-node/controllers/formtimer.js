@@ -4,7 +4,7 @@ exports.results = function(req, res) {
   if (typeof req.query.url === 'undefined' || typeof req.query.formId === 'undefined') {
     res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
   } else {
-    FormTimer.stats(req.query.formId, new RegExp(req.query.url, 'i'), function(err, result){
+    FormTimer.stats(req.query.formId, req.query.url, function(err, result){
       if (err) {
         res.send(err);
       } else if (result.length === 0) {
@@ -105,42 +105,4 @@ exports.create = function(req, res) {
 
 exports.example = function(req, res) {
   res.render('example');
-};
-
-exports.exampleResults = function(req, res) {
-
-  FormTimer.stats("Form #1", "/example", function(err, result){
-    if (err) {
-      res.send(err);
-    } else if (result.length === 0) {
-      res.send({formId: "Form #1", count:0});
-    } else {
-      var stats = result[0];
-
-      FormTimer.find({formId:"Form #1"}).sort('duration').exec(function(err, entries){
-
-        var maxDurRounded = Math.round(stats.maxDuration/1000);
-        var formtimerdata = [];
-        var tempHolder = {};
-
-        for (var i=0; i<maxDurRounded + 1; i++) {
-          formtimerdata.push([i.toString(), 0]);
-        }
-
-        entries.forEach(function(ent){
-          if (formtimerdata[ent.durationRounded.toString()])
-            formtimerdata[ent.durationRounded.toString()][1]++;
-        });
-
-        formtimerdata.unshift(['', 'Seconds to Complete']);
-        var renderData = {
-          formtimerdata : formtimerdata,
-          stats : stats,
-          entries : entries
-        };
-        res.render('example_results', renderData);
-      });
-    }
-  });
-
 };

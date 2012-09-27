@@ -9,8 +9,10 @@ html
 
     .container
       h4 Form #1
-      form#myformid(action='/example/results', data-formtimer-name="Form #1", method='GET')
+      form#myformid(action='results', data-formtimer-name="Form #1", method='GET')
         label Example text input
+        input(type="hidden", name="url", value="example")
+        input(type="hidden", name="formId", value="Form #1")
         input(name='test', type="text", placeholder='Timer starts when you click here...')
         label Pick one or two
         select
