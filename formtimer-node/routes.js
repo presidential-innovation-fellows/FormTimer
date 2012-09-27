@@ -1,5 +1,5 @@
 exports.init = function(app){
-  app.get('/', require('./controllers/formtimer').example);
+  app.get('/', require('./controllers/formtimer').index);
   app.get('/results', require('./controllers/formtimer').results);
   app.get('/results.json', require('./controllers/formtimer').resultsJson);
   app.get('/stats.json', require('./controllers/formtimer').statsJson);

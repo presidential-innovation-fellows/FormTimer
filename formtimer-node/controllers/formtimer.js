@@ -1,5 +1,9 @@
 var FormTimer = require('../models/formtimer');
 
+exports.index = function(req, res) {
+  res.redirect('/example');
+}
+
 exports.results = function(req, res) {
   if (typeof req.query.url === 'undefined' || typeof req.query.formId === 'undefined') {
     res.send({err:'must have url and form params e.g. url=http://mysite.com/somepage&formId=myformid'});
