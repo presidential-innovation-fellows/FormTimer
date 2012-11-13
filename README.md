@@ -60,15 +60,15 @@ Don't forget that you'll need to include jQuery above the FormTimer script.
 
 You can access the results of your forms by specifying the URL to your webpage and the name of the form:
 
-http://formtimer.presidentialinnovationfellows.org/results?url=mysite.com/somepage&form=form_name
+http://formtimer.presidentialinnovationfellows.org/results?url=mysite.com/somepage&formId=form_name
 
 Add `.json` for a JSON representation of the results:
 
-http://formtimer.presidentialinnovationfellows.org/results.json?url=mysite.com/somepage&form=form_name
+http://formtimer.presidentialinnovationfellows.org/results.json?url=mysite.com/somepage&formId=form_name
 
 And for a JSON representation of the *stats*:
 
-http://formtimer.presidentialinnovationfellows.org/stats.json?url=mysite.com/somepage&form=form_name
+http://formtimer.presidentialinnovationfellows.org/stats.json?url=mysite.com/somepage&formId=form_name
 
 ## Customizing the Results
 
