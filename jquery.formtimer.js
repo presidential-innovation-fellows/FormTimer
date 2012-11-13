@@ -15,7 +15,7 @@
       var duration;
       var formId;
 
-      formId = form.data('formtimer-name') || form.attr('id') || form.attr('name') || form.attr('action')
+      formId = form.data('formtimer-name') || form.attr('id') || form.attr('name') || form.attr('action');
 
       if (!formId) return;
 
@@ -35,7 +35,7 @@
 
         var data = {formId: formId, startTime: startTime, endTime: endTime, duration: duration};
 
-        if (_gaq) _gaq.push(['_trackEvent', 'FormTimer', 'Form Submitted', formId, duration]);
+        if (typeof _gaq !== "undefined") _gaq.push(['_trackEvent', 'FormTimer', 'Form Submitted', formId, duration]);
 
         if (settings.url) {
           $.getJSON(settings.url, data).complete(function(){
