@@ -48,7 +48,7 @@ Great news! You're welcome to use our server to track your stats if you don't wa
 <script>
 $(function(){
   $("form").formTimer({
-    url: 'http://formtimer.presidentialinnovationfellows/create'
+    url: 'http://formtimer.presidentialinnovationfellows.org/create'
   })
 })
 </script>
