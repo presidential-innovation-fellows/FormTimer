@@ -6,7 +6,7 @@
       'url' : false
     }, options);
 
-    this.each(function(){
+    return this.each(function(){
 
       var form = $(this);
       var startTime = false;
@@ -19,7 +19,7 @@
 
       if (!formId) return;
 
-      form.children(':input').on('focus', function(e){
+      form.find(':input').on('focus', function(e){
         if (!startTime) startTime = new Date();
       });
 
